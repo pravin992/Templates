@@ -15,8 +15,8 @@ public class Read_CSV {
 
 	public static void main(String[] args) throws IOException {
 		
-		String csvFile = "/Users/mkyong/csv/country.csv"; 
-		// String csvFile = "12thNovDataForSimulation.csv"; <- if file is in same WorkPlace then use directly file name 
+		//String csvFile = "/Users/mkyong/csv/country.csv"; 
+		String csvFile = "12thNovDataForSimulation2.csv"; //<- if file is in same WorkPlace then use directly file name 
 		
 		BufferedReader br = null;
         String line = "";
