@@ -7,10 +7,12 @@ import java.util.Scanner;
 	 
 public class BranchWisePlan1 {
 	//print Header
-	static void headerFormat(FileWriter fw,String levelId) throws IOException {
-		fw.append(levelId);
+	static void headerFormat(FileWriter fw,String levelName) throws IOException {
+		fw.append(levelName);
 		fw.append('\n');
 		fw.append("levelId");
+        fw.append(',');
+        fw.append("levelName");
         fw.append(',');
         fw.append("rideName");
         fw.append(',');
@@ -21,17 +23,26 @@ public class BranchWisePlan1 {
 	}
 	
 	//print data in requested Format 
-	static void displayFormat(String levelId,int count,String ridestartEndLocation,String str,FileWriter fw ) throws IOException {
+	static void displayFormat(String levelId,String levelName,int count,String ridestartEndLocation,String str,FileWriter fw ) throws IOException {
 		fw.append(levelId);
+        fw.append(',');
+        fw.append(levelName);
         fw.append(',');
         fw.append("Trip"+count);
         fw.append(',');
         fw.append(ridestartEndLocation);
         fw.append(',');
+        
+        // Remove last semicolon from String str
+        int index = str.lastIndexOf(";");
+        StringBuffer sb = new StringBuffer(str);
+        sb.deleteCharAt(index);
+        str= sb.toString();
+        
 		fw.append(str);
 		fw.append("\n");
 	}
-
+	
 	public static void main(String[] args) {
 		FileWriter fw=null;
 		BufferedReader br = null;
@@ -47,14 +58,16 @@ public class BranchWisePlan1 {
         
         System.out.println("Enter levelId :");
         String levelId = sc.next();
+        System.out.println("Enter levelName :");
+        String levelName = sc.next();
         System.out.println("Enter ridestartEndLocation :");
         String ridestartEndLocation = sc.next();
         
 		try {
 			br = new BufferedReader(new FileReader(csvFile));
-			fw = new FileWriter("output_csv.csv",true);
+			fw = new FileWriter("KA_Branchwise_Plan_Sorted.csv",true);
 		
-			headerFormat(fw,levelId);
+			headerFormat(fw,levelName);
 			
 			br.readLine();  
             //Reading from the second line
@@ -66,7 +79,7 @@ public class BranchWisePlan1 {
             	
             	if(trip!=count) // execute when trip is not same 
                 {
-            		displayFormat(levelId,count,ridestartEndLocation,str,fw ) ;
+            		displayFormat(levelId,levelName,count,ridestartEndLocation,str,fw) ;
             		count++;
             		str="";
                 }
@@ -74,7 +87,7 @@ public class BranchWisePlan1 {
             	
             } // end of while
             
-            displayFormat(levelId, count, ridestartEndLocation, str, fw );
+            displayFormat(levelId,levelName,count,ridestartEndLocation,str,fw );
             
         	fw.append('\n');   // if you separate data of other file by newline 
         	
